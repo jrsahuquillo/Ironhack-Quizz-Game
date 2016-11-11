@@ -7,6 +7,7 @@ var i             =0;
 function Quizz(questionsArray){
   // this.i=0;
   this.questionsArray = questionsArray;
+  this.score          = 0;
 }
 
 Quizz.prototype.startQuizz = function(){
@@ -15,9 +16,9 @@ Quizz.prototype.startQuizz = function(){
   };
 
   read(options, displayName.bind(this));
-  
+
   function displayName (err, name){
-    console.log("Welcome to Quizz Game: " + name + ", \nyou should select the correct answer. Push enter when you are ready.");
+    console.log("Welcome to Quizz Game: " + name + ", \nyou should select the correct answer.");
     this.makeQuestions();
   }
 };
@@ -34,21 +35,30 @@ Quizz.prototype.makeQuestions = function(){
   function displayAnswer (err, useranswer){
 
     if (useranswer === this.questionsArray[i].okanswer) {
-      console.log("Correct!!!");
-    }else{
-      console.log("Wrong answer");
-    }
+      this.score+=1;
+      console.log("Correct!!!, your score is " + this.score);
+      i++;
+    } else {
 
-    i++;
+      if (this.score === 0) {
+        this.score = 0;
+      } else {
+        this.score -= 1;
+      }
+
+      console.log("Wrong answer. Try again. You lost 1 point, your score is " + this.score);
+
+    }
 
     if (i < this.questionsArray.length){
       this.makeQuestions();
     } else {
       console.log("Game over");
     }
-
   }
 };
+
+
 
 quizz1 = new Quizz(questionsList);
 quizz1.startQuizz();
